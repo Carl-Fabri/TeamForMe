@@ -8,9 +8,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [RouterLink, RouterLinkActive],
   template: `
     <header class="nav">
-      <a class="brand" routerLink="/eventos">
-        <span class="brand__mark">◆</span> TeamForMe
-      </a>
+      <a class="brand" routerLink="/eventos"> <span class="brand__mark">◆</span> TeamForMe </a>
       <nav aria-label="Navegación principal">
         <a routerLink="/eventos" routerLinkActive="is-active">Eventos</a>
       </nav>

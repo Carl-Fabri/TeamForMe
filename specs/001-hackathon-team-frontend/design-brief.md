@@ -10,36 +10,36 @@ Defined as CSS custom properties on `:root` in `src/styles.css`:
 
 ```css
 :root {
-  --bg:         #08090D;
-  --surface:    #111319;
-  --surface-2:  #171A22;
-  --surface-3:  #1D2029;
-  --line:       #232631;
-  --text:       #F1EFF7;
-  --text-muted: #8A8D9C;
+  --bg: #08090d;
+  --surface: #111319;
+  --surface-2: #171a22;
+  --surface-3: #1d2029;
+  --line: #232631;
+  --text: #f1eff7;
+  --text-muted: #8a8d9c;
 
-  --violet:      #7C5CFF;
+  --violet: #7c5cff;
   --violet-soft: rgba(124, 92, 255, 0.2);
-  --violet-dark: #5B3FE0;
-  --teal:        #2DDDA6;
-  --coral:       #FF5D72;
-  --amber:       #F5B14C;
+  --violet-dark: #5b3fe0;
+  --teal: #2ddda6;
+  --coral: #ff5d72;
+  --amber: #f5b14c;
 }
 ```
 
 ### Semantic mapping
 
-| Use | Token |
-|-----|-------|
-| Page background | `--bg` |
-| Card / panel background | `--surface`, `--surface-2` (raised), `--surface-3` (input) |
-| Hairline borders / dividers | `--line` |
-| Primary body text | `--text` |
-| Secondary / muted text, private-team lock label | `--text-muted` |
-| Primary action, focus ring, accent gradients | `--violet` (hover `--violet-dark`, tint `--violet-soft`) |
-| Capacity ring — **disponible** state; público badge dot | `--teal` |
-| Capacity ring — **lleno** state; destructive / rejected | `--coral` |
-| Capacity ring — **casi lleno** state; warning / pending | `--amber` |
+| Use                                                     | Token                                                      |
+| ------------------------------------------------------- | ---------------------------------------------------------- |
+| Page background                                         | `--bg`                                                     |
+| Card / panel background                                 | `--surface`, `--surface-2` (raised), `--surface-3` (input) |
+| Hairline borders / dividers                             | `--line`                                                   |
+| Primary body text                                       | `--text`                                                   |
+| Secondary / muted text, private-team lock label         | `--text-muted`                                             |
+| Primary action, focus ring, accent gradients            | `--violet` (hover `--violet-dark`, tint `--violet-soft`)   |
+| Capacity ring — **disponible** state; público badge dot | `--teal`                                                   |
+| Capacity ring — **lleno** state; destructive / rejected | `--coral`                                                  |
+| Capacity ring — **casi lleno** state; warning / pending | `--amber`                                                  |
 
 ### Contrast
 
@@ -49,11 +49,11 @@ used for non-text or large-text emphasis, not small body copy on dark.
 
 ## Typography
 
-| Token | Family | Fallback stack | Used for |
-|-------|--------|----------------|----------|
-| `--font-display` | Space Grotesk | `"Space Grotesk", "Segoe UI", system-ui, sans-serif` | Titles / display headings |
-| `--font-body` | Inter | `Inter, system-ui, -apple-system, "Segoe UI", sans-serif` | Body copy, form fields, labels |
-| `--font-mono` | JetBrains Mono | `"JetBrains Mono", ui-monospace, "Cascadia Code", monospace` | Numerals, badges, stats, capacity counts |
+| Token            | Family         | Fallback stack                                               | Used for                                 |
+| ---------------- | -------------- | ------------------------------------------------------------ | ---------------------------------------- |
+| `--font-display` | Space Grotesk  | `"Space Grotesk", "Segoe UI", system-ui, sans-serif`         | Titles / display headings                |
+| `--font-body`    | Inter          | `Inter, system-ui, -apple-system, "Segoe UI", sans-serif`    | Body copy, form fields, labels           |
+| `--font-mono`    | JetBrains Mono | `"JetBrains Mono", ui-monospace, "Cascadia Code", monospace` | Numerals, badges, stats, capacity counts |
 
 Web fonts loaded via `<link>` in `src/index.html`; text MUST remain legible with the
 fallback stack if a web font fails (`font-display: swap`).

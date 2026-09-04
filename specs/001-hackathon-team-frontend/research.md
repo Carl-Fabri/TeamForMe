@@ -32,7 +32,7 @@ All items below were resolved; there are no remaining NEEDS CLARIFICATION.
 ## 3. Leaflet map under SSR
 
 - **Decision**: Render the map only in the browser. Guard with `isPlatformBrowser(inject(
-  PLATFORM_ID))` and initialize Leaflet inside `afterNextRender`. On the server, render a
+PLATFORM_ID))` and initialize Leaflet inside `afterNextRender`. On the server, render a
   static bordered placeholder `<div>` of the same dimensions. Dynamically `import('leaflet')`
   inside the browser branch so it is never in the server bundle. If tiles fail to load or
   coordinates are missing, show an inline notice (per spec edge cases / FR-004).

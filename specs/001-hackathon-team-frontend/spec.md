@@ -8,7 +8,7 @@
 
 **Input**: User description: "Frontend web de TeamForMe: los participantes de hackathons descubren eventos, ven los equipos existentes (aforo, público/privado) y se postulan a uno. Sin backend real todavía: toda la data viene de una capa de servicios simulada (mock) que respeta los contratos del backend futuro. Diseño dark mode estilo Luma, en español."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Explorar eventos disponibles (Priority: P1)
 
@@ -133,7 +133,7 @@ un tiempo, cambia de forma automática a "aceptada" o "rechazada".
 - **Modal en móvil**: el modal de postulación es usable en la anchura mínima soportada
   (360px) sin desbordes horizontales.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -154,8 +154,8 @@ un tiempo, cambia de forma automática a "aceptada" o "rechazada".
     resto del detalle se muestra con normalidad;
   - si las **teselas del mapa no cargan**, se muestra un aviso dentro del contenedor del
     mapa, conservando su tamaño.
-  El marcador de posición del mapa en render de servidor MUST ocupar el mismo tamaño que el
-  mapa hidratado, sin salto de layout.
+    El marcador de posición del mapa en render de servidor MUST ocupar el mismo tamaño que el
+    mapa hidratado, sin salto de layout.
 - **FR-005**: El sistema MUST mostrar un resumen de aforo del evento que agregue los cupos
   ocupados y totales de sus equipos.
 - **FR-006**: El sistema MUST listar los equipos del evento, cada uno con su nombre, su
@@ -252,7 +252,7 @@ un tiempo, cambia de forma automática a "aceptada" o "rechazada".
 - **FR-028**: El panel del organizador queda fuera de alcance en esta fase y MAY existir
   únicamente como ruta marcador de posición sin funcionalidad.
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **Evento**: un hackathon. Atributos: identificador, nombre, fecha, lugar (texto),
   coordenadas geográficas, descripción opcional, motivo visual opcional. Agrupa equipos.
@@ -270,7 +270,7 @@ un tiempo, cambia de forma automática a "aceptada" o "rechazada".
   Atributos: identificador, usuario destinatario, tipo (aceptada / rechazada / pendiente),
   mensaje, fecha de creación.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

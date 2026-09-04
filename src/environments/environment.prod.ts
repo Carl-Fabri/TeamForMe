@@ -1,4 +1,4 @@
-import { Environment } from './environment';
+import { Environment } from './environment.model';
 
 /**
  * Production environment. Swapped in via `fileReplacements` in angular.json.

@@ -1,0 +1,36 @@
+<header class="page-head">
+  <h1>Eventos</h1>
+  <p>Descubre hackathons y encuentra tu equipo.</p>
+</header>
+
+@switch (state()) {
+  @case ('loading') {
+    <p class="status" role="status">Cargando eventos…</p>
+  }
+  @case ('error') {
+    <div class="status status--error" role="alert">
+      <p>No pudimos cargar los eventos.</p>
+      <button type="button" (click)="load()">Reintentar</button>
+    </div>
+  }
+  @case ('ready') {
+    @if (items().length === 0) {
+      <p class="status" role="status">No hay eventos disponibles por ahora.</p>
+    } @else {
+      <ul class="grid">
+        @for (ev of items(); track ev.id) {
+          <li class="card">
+            <a class="card__link" [routerLink]="['/eventos', ev.id]">
+              <h2 class="card__title">{{ ev.name }}</h2>
+              <p class="card__date">{{ formatDate(ev.date) }}</p>
+              <p class="card__loc">{{ ev.location }}</p>
+              @if (ev.description) {
+                <p class="card__desc">{{ ev.description }}</p>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    }
+  }
+}

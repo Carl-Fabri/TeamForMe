@@ -1,7 +1,5 @@
 export type NotificationType =
-  | 'application_accepted'
-  | 'application_rejected'
-  | 'application_pending';
+  'application_accepted' | 'application_rejected' | 'application_pending';
 
 /**
  * An advisory message for a user about an application outcome.

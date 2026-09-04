@@ -44,17 +44,17 @@ MUST be guarded for SSR. All UI text in Spanish. Design tokens fixed by the refe
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 Constitution: `.specify/memory/constitution.md` v1.0.0.
 
-| Principle | Assessment | Status |
-|-----------|------------|--------|
-| I. Component-First Architecture | All components standalone with explicit `imports`; state via `signal`/`computed`; inputs/outputs via `input()`/`output()` (the brief's `@Input()` wording is superseded by this principle); `ChangeDetectionStrategy.OnPush` everywhere; shared logic in injectable services (`EventService`, `TeamService`, `ApplicationService`, …). No grouping-only components. | ✅ PASS |
-| II. Type Safety & Template Strictness (NON-NEGOTIABLE) | `strict` + `strictTemplates` stay on. Every model is a declared interface; no `any`. Mock services return typed `Observable<T>`. Public component/service APIs fully typed. | ✅ PASS |
-| III. Test-First Discipline | Each service and component ships Vitest unit tests in the same phase: capacity math, private-team hiding, full-team rejection, form validation, status transition, filter logic, SSR map guard. No skipped/focused specs. | ✅ PASS |
-| IV. Accessibility & Responsive UX | Semantic markup; modal traps focus and restores on close, closes on Escape, labelled; visible focus rings; WCAG 2.1 AA contrast (dark token palette chosen to meet it); mobile-first, no fixed widths, no overflow at 360px; avatars and icon-only controls have text alternatives. | ✅ PASS |
-| V. Performance & SSR Integrity | Every feature route lazy-loaded via `loadComponent`. Leaflet and any `document`/`window` access guarded with `isPlatformBrowser` / `afterNextRender`; map renders browser-only, SSR emits a static placeholder. No hydration mismatch. | ✅ PASS |
+| Principle                                              | Assessment                                                                                                                                                                                                                                                                                                                                                          | Status  |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| I. Component-First Architecture                        | All components standalone with explicit `imports`; state via `signal`/`computed`; inputs/outputs via `input()`/`output()` (the brief's `@Input()` wording is superseded by this principle); `ChangeDetectionStrategy.OnPush` everywhere; shared logic in injectable services (`EventService`, `TeamService`, `ApplicationService`, …). No grouping-only components. | ✅ PASS |
+| II. Type Safety & Template Strictness (NON-NEGOTIABLE) | `strict` + `strictTemplates` stay on. Every model is a declared interface; no `any`. Mock services return typed `Observable<T>`. Public component/service APIs fully typed.                                                                                                                                                                                         | ✅ PASS |
+| III. Test-First Discipline                             | Each service and component ships Vitest unit tests in the same phase: capacity math, private-team hiding, full-team rejection, form validation, status transition, filter logic, SSR map guard. No skipped/focused specs.                                                                                                                                           | ✅ PASS |
+| IV. Accessibility & Responsive UX                      | Semantic markup; modal traps focus and restores on close, closes on Escape, labelled; visible focus rings; WCAG 2.1 AA contrast (dark token palette chosen to meet it); mobile-first, no fixed widths, no overflow at 360px; avatars and icon-only controls have text alternatives.                                                                                 | ✅ PASS |
+| V. Performance & SSR Integrity                         | Every feature route lazy-loaded via `loadComponent`. Leaflet and any `document`/`window` access guarded with `isPlatformBrowser` / `afterNextRender`; map renders browser-only, SSR emits a static placeholder. No hydration mismatch.                                                                                                                              | ✅ PASS |
 
 **Result**: PASS. No violations — Complexity Tracking left empty.
 
@@ -147,5 +147,5 @@ the sticky navbar and footer. Routes are lazy `loadComponent` entries in the exi
 > No Constitution Check violations. Table intentionally empty.
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| — | — | — |
+| --------- | ---------- | ------------------------------------ |
+| —         | —          | —                                    |

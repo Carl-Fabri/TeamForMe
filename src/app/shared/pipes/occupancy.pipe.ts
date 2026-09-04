@@ -7,7 +7,9 @@ import { OccupancyState, occupancyState } from '../../core/models/team.model';
  */
 @Pipe({ name: 'occupancy' })
 export class OccupancyPipe implements PipeTransform {
-  transform(team: { readonly filled: number; readonly capacity: number } | null | undefined): OccupancyState {
+  transform(
+    team: { readonly filled: number; readonly capacity: number } | null | undefined,
+  ): OccupancyState {
     if (!team) {
       return 'available';
     }

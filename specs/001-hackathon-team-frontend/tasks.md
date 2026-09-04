@@ -1,5 +1,5 @@
 ---
-description: "Task list for Hackathon Team Discovery & Join (Frontend)"
+description: 'Task list for Hackathon Team Discovery & Join (Frontend)'
 ---
 
 # Tasks: Hackathon Team Discovery & Join (Frontend)
@@ -23,11 +23,11 @@ every service/component/pipe ships Vitest specs in the same phase.
 
 ## Phase 1: Setup (Shared Infrastructure)
 
-- [ ] T001 Install map dependency: `npm install leaflet @types/leaflet`
-- [ ] T002 [P] Create `src/environments/environment.ts` and `src/environments/environment.prod.ts` exporting `{ apiUrl: '', useMocks: true }`; add `fileReplacements` for the production configuration in `angular.json`
-- [ ] T003 [P] Add design tokens and `--font-display/-body/-mono` (with fallback stacks) to `src/styles.css` using the **exact values in `design-brief.md`**; add Space Grotesk / Inter / JetBrains Mono `<link>` (`font-display: swap`) to `src/index.html`; set `<html lang="es">`; add a `prefers-reduced-motion` base rule
-- [ ] T004 [P] Create empty folder structure per plan: `src/app/core/{models,services,mocks}`, `src/app/shared/{components,pipes}`, `src/app/features/{events,teams,applications}`, `src/app/layout/{navbar,footer}`
-- [ ] T005 Verify `.gitignore` and `.prettierignore` cover `node_modules/`, `dist/`, `*.log`, `.env*`, `coverage/`; append any missing
+- [X] T001 Install map dependency: `npm install leaflet @types/leaflet`
+- [X] T002 [P] Create `src/environments/environment.ts` and `src/environments/environment.prod.ts` exporting `{ apiUrl: '', useMocks: true }`; add `fileReplacements` for the production configuration in `angular.json`
+- [X] T003 [P] Add design tokens and `--font-display/-body/-mono` (with fallback stacks) to `src/styles.css` using the **exact values in `design-brief.md`**; add Space Grotesk / Inter / JetBrains Mono `<link>` (`font-display: swap`) to `src/index.html`; set `<html lang="es">`; add a `prefers-reduced-motion` base rule
+- [X] T004 [P] Create empty folder structure per plan: `src/app/core/{models,services,mocks}`, `src/app/shared/{components,pipes}`, `src/app/features/{events,teams,applications}`, `src/app/layout/{navbar,footer}`
+- [X] T005 Verify `.gitignore` and `.prettierignore` cover `node_modules/`, `dist/`, `*.log`, `.env*`, `coverage/`; append any missing
 
 ---
 
@@ -35,19 +35,19 @@ every service/component/pipe ships Vitest specs in the same phase.
 
 **⚠️ CRITICAL**: No user story work begins until this phase is complete.
 
-- [ ] T006 [P] Create `EventModel` in `src/app/core/models/event.model.ts` per data-model.md
-- [ ] T007 [P] Create `TeamModel` + `TeamMember` in `src/app/core/models/team.model.ts`
-- [ ] T008 [P] Create `ApplicationModel` + `ApplicationStatus` + `CreateApplicationInput` in `src/app/core/models/application.model.ts`
-- [ ] T009 [P] Create `UserModel` in `src/app/core/models/user.model.ts`
-- [ ] T010 [P] Create `NotificationModel` + `NotificationType` in `src/app/core/models/notification.model.ts`
-- [ ] T011 [P] Create `MOCK_EVENTS` in `src/app/core/mocks/events.mock.ts` (≥3 events, one without `coords`)
-- [ ] T012 [P] Create `MOCK_TEAMS` in `src/app/core/mocks/teams.mock.ts` (mix of public/private, one full, one seeded always-`rejected`)
-- [ ] T013 [P] Create `MOCK_USERS` + `MOCK_CURRENT_USER` in `src/app/core/mocks/users.mock.ts`
-- [ ] T014 [P] Create occupancy helper + `occupancyState` pure pipe in `src/app/shared/pipes/occupancy.pipe.ts` (+ `.spec.ts`): thresholds available `<0.8`, almost-full `<1`, full `>=1`
-- [ ] T015 [P] Create `ButtonComponent` in `src/app/shared/components/button/` (standalone, OnPush, `input()` for variant/disabled, projected content) (+ `.spec.ts`)
-- [ ] T016 Create `NavbarComponent` in `src/app/layout/navbar/` (sticky, translucent, `backdrop-filter`) and `FooterComponent` in `src/app/layout/footer/` (+ specs); render both in `src/app/app.html` around `<router-outlet>`
-- [ ] T017 Update `src/app/app.routes.ts` with lazy `loadComponent` routes: `'' → redirect eventos`, `eventos`, `eventos/:id`, `eventos/:eventId/equipos/:teamId/postular`, `postulaciones/:id`, `organizador` (placeholder), `** → NotFoundComponent`; create `NotFoundComponent` and `OrganizadorPlaceholderComponent` in `src/app/features/`
-- [ ] T018 Confirm `src/app/app.config.ts` provides router + client hydration + zoneless/animations as already scaffolded; no NgModules introduced
+- [X] T006 [P] Create `EventModel` in `src/app/core/models/event.model.ts` per data-model.md
+- [X] T007 [P] Create `TeamModel` + `TeamMember` in `src/app/core/models/team.model.ts`
+- [X] T008 [P] Create `ApplicationModel` + `ApplicationStatus` + `CreateApplicationInput` in `src/app/core/models/application.model.ts`
+- [X] T009 [P] Create `UserModel` in `src/app/core/models/user.model.ts`
+- [X] T010 [P] Create `NotificationModel` + `NotificationType` in `src/app/core/models/notification.model.ts`
+- [X] T011 [P] Create `MOCK_EVENTS` in `src/app/core/mocks/events.mock.ts` (≥3 events, one without `coords`)
+- [X] T012 [P] Create `MOCK_TEAMS` in `src/app/core/mocks/teams.mock.ts` (mix of public/private, one full, one seeded always-`rejected`)
+- [X] T013 [P] Create `MOCK_USERS` + `MOCK_CURRENT_USER` in `src/app/core/mocks/users.mock.ts`
+- [X] T014 [P] Create occupancy helper + `occupancyState` pure pipe in `src/app/shared/pipes/occupancy.pipe.ts` (+ `.spec.ts`): thresholds available `<0.8`, almost-full `<1`, full `>=1`
+- [X] T015 [P] Create `ButtonComponent` in `src/app/shared/components/button/` (standalone, OnPush, `input()` for variant/disabled, projected content) (+ `.spec.ts`)
+- [X] T016 Create `NavbarComponent` in `src/app/layout/navbar/` (sticky, translucent, `backdrop-filter`) and `FooterComponent` in `src/app/layout/footer/` (+ specs); render both in `src/app/app.html` around `<router-outlet>`
+- [X] T017 Update `src/app/app.routes.ts` with lazy `loadComponent` routes: `'' → redirect eventos`, `eventos`, `eventos/:id`, `eventos/:eventId/equipos/:teamId/postular`, `postulaciones/:id`, `organizador` (placeholder), `** → NotFoundComponent`; create `NotFoundComponent` and `OrganizadorPlaceholderComponent` in `src/app/features/` — _MVP: `eventos`, `organizador`, `**` + redirect wired and `NotFoundComponent`/`OrganizadorPlaceholderComponent` created; `eventos/:id`, `.../postular`, `postulaciones/:id` are added in Phases 4–6 with their components._
+- [X] T018 Confirm `src/app/app.config.ts` provides router + client hydration + zoneless/animations as already scaffolded; no NgModules introduced
 
 **Checkpoint**: Models, mocks, shared primitives, layout shell and routing skeleton compile (`ng build`).
 
@@ -61,14 +61,14 @@ every service/component/pipe ships Vitest specs in the same phase.
 
 ### Tests for User Story 1
 
-- [ ] T019 [P] [US1] `event.service.spec.ts`: `getEvents` returns mock list after delay; `getEventById` returns `undefined` for unknown id; error path emits via `throwError`
-- [ ] T020 [P] [US1] `events-list.spec.ts`: renders one card per event; shows loading state; shows "no hay eventos" for empty list
+- [X] T019 [P] [US1] `event.service.spec.ts`: `getEvents` returns mock list after delay; `getEventById` returns `undefined` for unknown id; error path emits via `throwError`
+- [X] T020 [P] [US1] `events-list.spec.ts`: renders one card per event; shows loading state; shows "no hay eventos" for empty list
 
 ### Implementation for User Story 1
 
-- [ ] T021 [US1] Implement `EventService` in `src/app/core/services/event.service.ts` per `contracts/event-service.md` (`getEvents`, `getEventById`, `of(...).pipe(delay())`, HTTP branch commented)
-- [ ] T022 [US1] Implement `EventsListComponent` in `src/app/features/events/events-list/` (standalone, OnPush, signal state: `loading`, `events`, `error`; grid of event cards with name/date/place; loading + empty + error templates; Spanish copy)
-- [ ] T023 [US1] Wire `eventos` route to `EventsListComponent`; card click navigates to `eventos/:id`
+- [X] T021 [US1] Implement `EventService` in `src/app/core/services/event.service.ts` per `contracts/event-service.md` (`getEvents`, `getEventById`, `of(...).pipe(delay())`, HTTP branch commented)
+- [X] T022 [US1] Implement `EventsListComponent` in `src/app/features/events/events-list/` (standalone, OnPush, signal state: `loading`, `events`, `error`; grid of event cards with name/date/place; loading + empty + error templates; Spanish copy)
+- [X] T023 [US1] Wire `eventos` route to `EventsListComponent`; card click navigates to `eventos/:id`
 
 **Checkpoint**: US1 fully functional and testable on its own (MVP).
 
