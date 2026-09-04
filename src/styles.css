@@ -1,3 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles: Tailwind utilities + TeamForMe design tokens.
+   Token values are the source of truth in specs/001-hackathon-team-frontend/design-brief.md */
 
 @import 'tailwindcss';
+
+:root {
+  /* Surfaces & text */
+  --bg: #08090d;
+  --surface: #111319;
+  --surface-2: #171a22;
+  --surface-3: #1d2029;
+  --line: #232631;
+  --text: #f1eff7;
+  --text-muted: #8a8d9c;
+
+  /* Accents */
+  --violet: #7c5cff;
+  --violet-soft: rgba(124, 92, 255, 0.2);
+  --violet-dark: #5b3fe0;
+  --teal: #2ddda6;
+  --coral: #ff5d72;
+  --amber: #f5b14c;
+
+  /* Typography */
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+  /* Shape */
+  --radius-card: 14px;
+  --radius-control: 10px;
+}
+
+html {
+  color-scheme: dark;
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Visible focus indicator for keyboard users on every interactive element (FR-027a). */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
