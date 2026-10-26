@@ -37,7 +37,7 @@ src/
 | Ruta | Pantalla | Estado |
 |---|---|---|
 | `/` | Redirige a `/eventos` | Implementada |
-| `/eventos` | Lista de hackathons | Implementada |
+| `/eventos` | Lista de eventos e ideas en búsqueda de grupo | Implementada |
 | `/eventos/:id` | Detalle con mapa, aforo y equipos | Pendiente (fase 4 del plan) |
 | `/eventos/:eventId/equipos/:teamId/postular` | Modal de postulación | Pendiente |
 | `/postulaciones/:id` | Estado de la postulación | Pendiente |

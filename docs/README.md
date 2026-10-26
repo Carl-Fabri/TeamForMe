@@ -1,6 +1,6 @@
 # Documentación · TeamForMeFrontend
 
-Web del participante de TeamForMe: descubrir hackathons, ver equipos y postularse.
+Web del participante de TeamForMe: descubrir eventos e ideas en búsqueda de grupo, ver los grupos y postularse.
 
 | Documento | Contenido |
 |---|---|
