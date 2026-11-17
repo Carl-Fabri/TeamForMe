@@ -1,0 +1,190 @@
+# Despliega nuevas versiones en las Container Apps que YA existen en Azure.
+# No crea infraestructura: detecta qué apps hay en el grupo de recursos, construye la imagen
+# de cada una, la sube al MISMO registro y repositorio que esa app ya usa y la actualiza.
+#
+#   CI  →  detectar apps existentes  →  build + push + az containerapp update (por app)  →  verificación
+#
+# Hoy actualiza "teamforme-frontend". Si más adelante existen gateway, ms-events, etc.
+# (nombres "teamforme-<componente>" o "<componente>"), se incluyen solos.
+name: Deploy · servicios existentes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - microservices/**
+      - TeamForMeFrontend/**
+      - gateway/**
+      - observability/**
+      - .github/workflows/deploy-existing.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-existing
+  cancel-in-progress: false
+
+env:
+  RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP || 'rg-teamforme' }}
+
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
+  detect:
+    name: Detectar apps existentes
+    needs: ci
+    runs-on: ubuntu-latest
+    environment: production
+    outputs:
+      matrix: ${{ steps.find.outputs.matrix }}
+      tag: ${{ steps.find.outputs.tag }}
+    steps:
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Buscar Container Apps y su registro actual
+        id: find
+        run: |
+          # Componente del repositorio → carpeta del Dockerfile y argumentos de build.
+          components='[
+            {"component":"frontend",         "context":"TeamForMeFrontend",        "args":""},
+            {"component":"gateway",          "context":"gateway",                  "args":""},
+            {"component":"ms-events",        "context":"microservices",            "args":"SERVICE=MS.Events"},
+            {"component":"ms-teams",         "context":"microservices",            "args":"SERVICE=MS.Teams"},
+            {"component":"ms-applications",  "context":"microservices",            "args":"SERVICE=MS.Applications"},
+            {"component":"ms-users",         "context":"microservices",            "args":"SERVICE=MS.Users"},
+            {"component":"ms-notifications", "context":"microservices",            "args":"SERVICE=MS.Notifications"},
+            {"component":"prometheus",       "context":"observability/prometheus", "args":""},
+            {"component":"grafana",          "context":"observability/grafana",    "args":""}
+          ]'
+          apps=$(az containerapp list -g "$RESOURCE_GROUP" \
+            --query "[].{name:name, image:properties.template.containers[0].image, fqdn:properties.configuration.ingress.fqdn, external:properties.configuration.ingress.external}" -o json)
+
+          # Por cada app existente cuyo nombre sea "teamforme-<componente>" o "<componente>":
+          # registro y repositorio se toman de la imagen que la app usa hoy.
+          matrix=$(jq -c --argjson apps "$apps" '
+            [ .[] as $c
+              | $apps[]
+              | select(.name == ("teamforme-" + $c.component) or .name == $c.component)
+              | select(.image | test("\\.azurecr\\.io/"))
+              | $c + {
+                  app: .name,
+                  registry: (.image | split("/")[0]),
+                  repository: (.image | split("/")[1:] | join("/") | split(":")[0]),
+                  current: .image,
+                  fqdn: (.fqdn // ""),
+                  external: (.external // false)
+                } ]' <<<"$components")
+
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          echo "tag=$(date -u +%Y%m%d%H%M)-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "### Apps detectadas en \`$RESOURCE_GROUP\`"
+            echo "| App | Componente | Imagen actual |"
+            echo "|---|---|---|"
+            jq -r '.[] | "| \(.app) | \(.component) | `\(.current)` |"' <<<"$matrix"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$matrix" = "[]" ]; then
+            echo "::warning::No hay Container Apps de TeamForMe en $RESOURCE_GROUP; no se despliega nada."
+          fi
+
+  deploy:
+    name: Desplegar · ${{ matrix.app }}
+    needs: detect
+    if: needs.detect.outputs.matrix != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.detect.outputs.matrix) }}
+    env:
+      IMAGE: ${{ matrix.registry }}/${{ matrix.repository }}
+      TAG: ${{ needs.detect.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Login en el registro de la app
+        run: az acr login -n "${REGISTRY%%.*}"
+        env:
+          REGISTRY: ${{ matrix.registry }}
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build y push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          build-args: |
+            ${{ matrix.args }}
+            APP_VERSION=${{ needs.detect.outputs.tag }}
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ env.IMAGE }}:${{ env.TAG }}
+            ${{ env.IMAGE }}:latest
+          cache-from: type=gha,scope=${{ matrix.component }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.component }}
+
+      - name: Actualizar la Container App
+        env:
+          APP: ${{ matrix.app }}
+        run: |
+          az containerapp update -n "$APP" -g "$RESOURCE_GROUP" --image "$IMAGE:$TAG" -o none
+          # Espera a que la nueva revisión quede lista (máx. 5 min).
+          for i in $(seq 1 30); do
+            read -r latest ready <<<"$(az containerapp show -n "$APP" -g "$RESOURCE_GROUP" \
+              --query "[properties.latestRevisionName, properties.latestReadyRevisionName]" -o tsv | tr '\n' ' ')"
+            echo "intento $i: última=$latest lista=$ready"
+            [ -n "$latest" ] && [ "$latest" = "$ready" ] && break
+            sleep 10
+          done
+          [ "$latest" = "$ready" ] || { echo "::error::La revisión $latest no quedó lista"; exit 1; }
+          echo "REVISION=$latest" >> "$GITHUB_ENV"
+
+      - name: Verificar respuesta HTTP
+        if: matrix.external
+        env:
+          URL: https://${{ matrix.fqdn }}
+        run: |
+          for i in $(seq 1 18); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$URL/" || true)
+            echo "intento $i: HTTP $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 10
+          done
+          echo "::error::$URL no respondió 200"; exit 1
+
+      - name: Resumen
+        if: always()
+        env:
+          APP: ${{ matrix.app }}
+          FQDN: ${{ matrix.fqdn }}
+          BEFORE: ${{ matrix.current }}
+          STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "### $APP"
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Resultado | $STATUS |"
+            echo "| Imagen anterior | \`$BEFORE\` |"
+            echo "| Imagen nueva | \`$IMAGE:$TAG\` |"
+            echo "| Revisión | \`${REVISION:-—}\` |"
+            [ -n "$FQDN" ] && echo "| URL | https://$FQDN |"
+          } >> "$GITHUB_STEP_SUMMARY"
