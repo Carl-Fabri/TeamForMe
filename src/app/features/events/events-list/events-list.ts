@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, PLATFORM_ID, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { EventModel } from '../../../core/models/event.model';
@@ -22,7 +23,11 @@ export class EventsListComponent {
   protected readonly items = signal<readonly EventModel[]>([]);
 
   constructor() {
-    this.load();
+    // Data is fetched in the browser only: during SSR/prerender (build time) there is no
+    // backend to call, so the server emits the loading state and hydration takes over.
+    if (isPlatformBrowser(inject(PLATFORM_ID))) {
+      this.load();
+    }
   }
 
   protected load(): void {

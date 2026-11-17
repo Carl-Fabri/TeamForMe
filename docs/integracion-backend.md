@@ -6,10 +6,21 @@ API en el **mismo origen**: `/` es el frontend y `/api/*` los microservicios. As
 ni configurar URLs distintas por entorno.
 
 ## Estado actual
-El frontend sigue con `useMocks: true`. Los modelos JSON del backend (en camelCase) son idénticos
-a las interfaces de `src/app/core/models/`, de modo que el cambio no toca componentes ni plantillas.
+| Entorno | `useMocks` | `apiUrl` | Datos |
+|---|---|---|---|
+| Producción (`environment.prod.ts`, la imagen desplegada) | `false` | `/api` | **Reales**, desde MS.Events a través del gateway |
+| Desarrollo (`environment.ts`, `ng serve` y pruebas) | `true` | — | Mocks en memoria |
 
-## Pasos para conectar
+- `EventService` usa `HttpClient` (`provideHttpClient(withFetch())` en `app.config.ts`). Un 404 en
+  `GET /events/{id}` se traduce en `undefined`, igual que el mock.
+- El listado de eventos pide los datos **solo en el navegador**: en el pre-render del build no hay
+  backend, así que el HTML estático lleva el estado "Cargando eventos…" y la hidratación carga los datos.
+- **Hay que entrar por la URL del gateway** (`https://gateway.<dominio>/eventos`). En la URL directa
+  de `teamforme-frontend`, `/api` no existe y la página mostrará el estado de error con "Reintentar".
+- Los demás servicios (`TeamService`, `ApplicationService`, …) aún no existen en el frontend; al
+  crearlos se sigue el mismo patrón.
+
+## Pasos que se siguieron (referencia para los demás servicios)
 1. **Registrar `HttpClient`** en `src/app/app.config.ts`, con `fetch` para que funcione en SSR:
    ```ts
    import { provideHttpClient, withFetch } from '@angular/common/http';
