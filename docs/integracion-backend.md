@@ -1,7 +1,7 @@
 # Integración con el backend
 
 El backend son 5 microservicios .NET detrás de un API Gateway nginx
-(ver [`microservices/docs`](../../microservices/docs/README.md)). El gateway publica la app y la
+(repositorio [TeamForMeBackend](https://github.com/Carl-Fabri/TeamForMeBackend), carpeta `cloud/`). El gateway publica la app y la
 API en el **mismo origen**: `/` es el frontend y `/api/*` los microservicios. Así no hace falta CORS
 ni configurar URLs distintas por entorno.
 

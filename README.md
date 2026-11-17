@@ -1,46 +1,59 @@
 # TeamForMe
 
-Plataforma de eventos e ideas en búsqueda de grupo: descubrirlos, ver los grupos que se están formando y postularse a uno.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
 
-```text
-TeamForMe/
-├── TeamForMeFrontend/     Angular 21 SSR (participante)        → docs/ del frontend
-├── TeamForMeBackend/      Plantilla gRPC original (.NET 10)    → docs/ de la plantilla
-├── microservices/         5 microservicios .NET 10 + librería  → docs/ del backend y la nube
-├── gateway/               API Gateway (nginx)
-├── observability/         Prometheus (TSDB) + Grafana
-├── k8s/ms-events/         Módulo MS.Events en Kubernetes (Kustomize)
-├── infra/                 Infraestructura Azure (Bicep)
-├── scripts/azure/         Despliegue, AKS y control de costos
-└── docker-compose.yml     Entorno local completo
-```
+## Development server
 
-## Inicio rápido (local)
+To start a local development server, run:
+
 ```bash
-cp .env.example .env
+ng serve
 ```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
 ```bash
-docker compose up -d --build
-```
-App y API en http://localhost:8080 (`/api/events`), Prometheus en http://localhost:9090 y
-Grafana en http://localhost:3000.
-
-## Azure (Azure for Students)
-```powershell
-az login
-```
-```powershell
-./scripts/azure/deploy.ps1 -ResourceGroup rg-teamforme -ResourceLocation centralus -UseAcrBuild
+ng generate component component-name
 ```
 
-Guía completa: [microservices/docs/despliegue/GUIA-AZURE-STUDENTS.md](microservices/docs/despliegue/GUIA-AZURE-STUDENTS.md)
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-Algoritmos de infraestructura aplicados en el lanzamiento (balanceo, autoescalado, canary,
-token bucket, circuit breaker): [microservices/docs/algoritmos/](microservices/docs/algoritmos/README.md)
+```bash
+ng generate --help
+```
 
-## Documentación por solución
-| Solución | Documentación |
-|---|---|
-| Frontend | [TeamForMeFrontend/docs/](TeamForMeFrontend/docs/README.md) |
-| Backend de microservicios, nube y despliegue | [microservices/docs/](microservices/docs/README.md) |
-| Plantilla gRPC | [TeamForMeBackend/docs/](TeamForMeBackend/docs/README.md) |
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

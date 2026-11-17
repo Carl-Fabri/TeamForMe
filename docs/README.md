@@ -10,7 +10,7 @@ Web del participante de TeamForMe: descubrir eventos e ideas en búsqueda de gru
 
 Documentación relacionada:
 - Especificación funcional, plan y contratos: [`specs/001-hackathon-team-frontend/`](../specs/001-hackathon-team-frontend/)
-- Backend, microservicios, temas cloud y guía de despliegue en Azure: [`microservices/docs/`](../../microservices/docs/README.md)
+- Backend, microservicios, temas cloud y guía de despliegue en Azure: repositorio [TeamForMeBackend](https://github.com/Carl-Fabri/TeamForMeBackend), carpeta `cloud/microservices/docs/`
 
 ## Inicio rápido
 ```bash
