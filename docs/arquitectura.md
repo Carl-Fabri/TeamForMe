@@ -22,6 +22,7 @@ src/
 │   ├── shared/           # componentes presentacionales (button, ...) y pipes (occupancy)
 │   ├── features/         # una carpeta por pantalla enrutada (lazy)
 │   │   ├── events/events-list/
+│   │   ├── events/event-detail/   # detalle: mapa, aforo, equipos y filtro
 │   │   ├── organizador/  # placeholder
 │   │   └── not-found/
 │   ├── layout/           # navbar y footer
@@ -38,7 +39,7 @@ src/
 |---|---|---|
 | `/` | Redirige a `/eventos` | Implementada |
 | `/eventos` | Lista de eventos e ideas en búsqueda de grupo | Implementada |
-| `/eventos/:id` | Detalle con mapa, aforo y equipos | Pendiente (fase 4 del plan) |
+| `/eventos/:id` | Detalle con mapa (Leaflet), aforo total, equipos con anillo de ocupación y filtro *todos / con cupo / llenos*. Renderizado en el cliente (`RenderMode.Client`) | Implementada |
 | `/eventos/:eventId/equipos/:teamId/postular` | Modal de postulación | Pendiente |
 | `/postulaciones/:id` | Estado de la postulación | Pendiente |
 | `/organizador` | Placeholder | Implementada |
@@ -64,7 +65,7 @@ getEvents(): Observable<EventModel[]> {
 | Servicio | Estado | Endpoint real (vía gateway) |
 |---|---|---|
 | `EventService` | Implementado (mock) | `GET /api/events`, `GET /api/events/{id}` |
-| `TeamService` | Pendiente | `GET /api/events/{id}/teams`, `GET /api/teams/{id}`, `POST /api/teams/{id}/applications` |
+| `TeamService` | Implementado (mock + API) | `GET /api/events/{id}/teams`, `GET /api/teams/{id}` (la postulación, `POST /api/teams/{id}/applications`, queda para la siguiente fase) |
 | `ApplicationService` | Pendiente | `GET /api/applications/{id}` |
 | `UserService` | Pendiente | `GET /api/users/me`, `GET /api/users/{id}` |
 | `NotificationService` | Pendiente | `GET /api/users/{id}/notifications` |

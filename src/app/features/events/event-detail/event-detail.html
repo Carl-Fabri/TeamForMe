@@ -1,0 +1,116 @@
+<a class="back" routerLink="/eventos">← Volver a eventos</a>
+
+@switch (state()) {
+  @case ('loading') {
+    <p class="status" role="status">Cargando evento…</p>
+  }
+  @case ('not-found') {
+    <div class="status" role="alert">
+      <h1>Evento no encontrado</h1>
+      <p>El evento que buscas no existe o ya no está disponible.</p>
+    </div>
+  }
+  @case ('error') {
+    <div class="status status--error" role="alert">
+      <p>No pudimos cargar el evento.</p>
+      <button type="button" (click)="load()">Reintentar</button>
+    </div>
+  }
+  @case ('ready') {
+    @if (event(); as ev) {
+      <header class="head">
+        <h1>{{ ev.name }}</h1>
+        <p class="head__date">{{ formatDate(ev.date) }}</p>
+        <p class="head__loc">{{ ev.location }}</p>
+        @if (ev.description) {
+          <p class="head__desc">{{ ev.description }}</p>
+        }
+      </header>
+
+      <section class="overview" aria-label="Ubicación y aforo">
+        @if (ev.coords) {
+          <div #map class="map" role="img" [attr.aria-label]="'Mapa de ' + ev.location"></div>
+        }
+        <div class="capacity">
+          <p class="capacity__value">
+            <strong>{{ totals().filled }}</strong> / {{ totals().capacity }}
+          </p>
+          <p class="capacity__label">cupos ocupados en {{ teams().length }} equipos</p>
+          <div class="bar" aria-hidden="true">
+            <span class="bar__fill" [style.width.%]="totals().percent"></span>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="teams-title">
+        <div class="teams-head">
+          <h2 id="teams-title">Equipos</h2>
+          <div class="filters" role="group" aria-label="Filtrar equipos">
+            @for (f of filters; track f.value) {
+              <button
+                type="button"
+                class="filter"
+                [class.filter--active]="filter() === f.value"
+                [attr.aria-pressed]="filter() === f.value"
+                (click)="setFilter(f.value)"
+              >
+                {{ f.label }}
+              </button>
+            }
+          </div>
+        </div>
+
+        @if (visibleTeams().length === 0) {
+          <p class="status" role="status">No hay equipos que coincidan con el filtro.</p>
+        } @else {
+          <ul class="teams">
+            @for (team of visibleTeams(); track team.id) {
+              <li class="team" [attr.data-state]="team | occupancy">
+                <div
+                  class="ring"
+                  role="img"
+                  [attr.aria-label]="team.filled + ' de ' + team.capacity + ' cupos ocupados'"
+                  [style.--p]="percent(team)"
+                >
+                  <span>{{ team.filled }}/{{ team.capacity }}</span>
+                </div>
+                <div class="team__body">
+                  <h3 class="team__name">{{ team.name }}</h3>
+                  <p class="team__meta">
+                    <span class="tag">{{ team.tag }}</span>
+                    <span class="badge">{{ team.isPrivate ? 'Privado' : 'Público' }}</span>
+                  </p>
+                  @if (team.isPrivate) {
+                    <p class="team__private">Integrantes ocultos: equipo privado</p>
+                  } @else if (team.members.length > 0) {
+                    <ul class="avatars" aria-label="Integrantes">
+                      @for (m of avatars(team); track m.userId) {
+                        <li
+                          class="avatar"
+                          [style.background]="m.avatarColor"
+                          [attr.title]="m.initials"
+                        >
+                          {{ m.initials }}
+                        </li>
+                      }
+                      @if (extraMembers(team) > 0) {
+                        <li class="avatar avatar--more">+{{ extraMembers(team) }}</li>
+                      }
+                    </ul>
+                  }
+                  <p class="team__seats">
+                    @if (seatsLeft(team) > 0) {
+                      Quedan {{ seatsLeft(team) }} cupos
+                    } @else {
+                      Sin cupos disponibles
+                    }
+                  </p>
+                </div>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    }
+  }
+}

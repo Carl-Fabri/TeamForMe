@@ -15,6 +15,11 @@ export const routes: Routes = [
       import('./features/events/events-list/events-list').then((m) => m.EventsListComponent),
   },
   {
+    path: 'eventos/:id',
+    loadComponent: () =>
+      import('./features/events/event-detail/event-detail').then((m) => m.EventDetailComponent),
+  },
+  {
     path: 'organizador',
     loadComponent: () =>
       import('./features/organizador/organizador-placeholder').then(

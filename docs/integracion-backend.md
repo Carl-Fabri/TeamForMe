@@ -17,7 +17,7 @@ ni configurar URLs distintas por entorno.
   backend, así que el HTML estático lleva el estado "Cargando eventos…" y la hidratación carga los datos.
 - **Hay que entrar por la URL del gateway** (`https://gateway.<dominio>/eventos`). En la URL directa
   de `teamforme-frontend`, `/api` no existe y la página mostrará el estado de error con "Reintentar".
-- Los demás servicios (`TeamService`, `ApplicationService`, …) aún no existen en el frontend; al
+- `TeamService` ya consulta `GET /api/events/{id}/teams` (detalle del evento). Los demás servicios (`ApplicationService`, …) aún no existen en el frontend; al
   crearlos se sigue el mismo patrón.
 
 ## Pasos que se siguieron (referencia para los demás servicios)

@@ -63,13 +63,17 @@ describe('EventService (backend mode)', () => {
 
   it('getEventById maps a 404 to undefined', async () => {
     const result = firstValueFrom(service.getEventById('nope'));
-    http.expectOne((req) => req.url.endsWith('/events/nope')).flush(null, { status: 404, statusText: 'Not Found' });
+    http
+      .expectOne((req) => req.url.endsWith('/events/nope'))
+      .flush(null, { status: 404, statusText: 'Not Found' });
     expect(await result).toBeUndefined();
   });
 
   it('getEventById propagates other errors', async () => {
     const result = firstValueFrom(service.getEventById('x'));
-    http.expectOne((req) => req.url.endsWith('/events/x')).flush(null, { status: 500, statusText: 'Error' });
+    http
+      .expectOne((req) => req.url.endsWith('/events/x'))
+      .flush(null, { status: 500, statusText: 'Error' });
     await expect(result).rejects.toBeTruthy();
   });
 });

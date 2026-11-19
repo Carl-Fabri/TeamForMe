@@ -33,10 +33,12 @@ export class EventService {
       return of(found ? { ...found } : undefined).pipe(delay(READ_DELAY_MS));
     }
     // 404 means "evento no encontrado" (undefined), same contract as the mock.
-    return this.http.get<EventModel>(`${environment.apiUrl}/events/${encodeURIComponent(id)}`).pipe(
-      catchError((err: HttpErrorResponse) =>
-        err.status === 404 ? of(undefined) : throwError(() => err),
-      ),
-    );
+    return this.http
+      .get<EventModel>(`${environment.apiUrl}/events/${encodeURIComponent(id)}`)
+      .pipe(
+        catchError((err: HttpErrorResponse) =>
+          err.status === 404 ? of(undefined) : throwError(() => err),
+        ),
+      );
   }
 }
